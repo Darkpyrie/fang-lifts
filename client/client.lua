@@ -12,10 +12,11 @@ end
 local function isDisabled(name, level) --function to check if a floor/elevator is job locked in config.lua
     if name.JobLocked then --checks if elevator is job locked
         for _,jobname in pairs(name.JobAccess) do
-            if PlayerData.job.name == jobname then
+            if QBX.PlayerData.job.name == jobname then
                 return false
             end
         end
+        return true
     end
     if level.Floorlock then --checks if floor is job locked
         for _,jobname in pairs(level.JobFAccess) do
@@ -23,8 +24,8 @@ local function isDisabled(name, level) --function to check if a floor/elevator i
                     return false
                 end
         end
+        return true
     end
-    return true
 end
 
 local function liftMove(level) --function to move the ped
