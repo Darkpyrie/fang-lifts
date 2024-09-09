@@ -7,13 +7,11 @@ version '1.0.0'
  
 shared_scripts {
 	'@ox_lib/init.lua',
-	'@qbx_core/modules/lib.lua',
 	'config/config.lua'
 }
 
 client_scripts {
 	'client/client.lua',
-	'@qbx_core/modules/playerdata.lua',
 }
 
 lua54 'yes'

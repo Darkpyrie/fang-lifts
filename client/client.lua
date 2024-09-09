@@ -1,19 +1,9 @@
 local function isDisabled(name, level) --function to check if a floor/elevator is job locked in config.lua
     if name.JobLocked then --checks if elevator is job locked
-        for _,jobname in pairs(name.JobAccess) do
-            if QBX.PlayerData.job.name == jobname then
-                return false
-            end
-        end
-        return true
+        return not exports.qbx_core:HasGroup(name.JobAccess)
     end
     if level.Floorlock then --checks if floor is job locked
-        for _,jobname in pairs(level.JobFAccess) do
-                if QBX.PlayerData.job.name == jobname then
-                    return false
-                end
-        end
-        return true
+        return not exports.qbx_core:HasGroup(level.JobFAccess)
     end
 end
 
@@ -30,35 +20,17 @@ local function liftMove(level) --function to move the ped
     DoScreenFadeIn(1500)
 end
 
-local function pairsInOrder(object, _) -- borrowed from qbx_city hall
-    local a = {}
-    for n in pairs(object) do
-        a[#a + 1] = n
-    end
-    table.sort(a, _)
-    local i = 0
-    local iterator = function()
-        i = i + 1
-        if a[i] == nil then
-            return nil
-        else
-            return a[i], object[a[i]]
-        end
-    end
-    return iterator
-end
-
-
 local function floorMenu(name) --function to draw the context menu
     local options = {}
 
-    for index,level in pairs(Config.Elevators[name].Floors) do
+    for i = 1, #Config.Elevators[name].Floors do
+        local floorConfig = Config.Elevators[name].Floors[i]
         options[#options+1] = {
-            title = level.Label,
-            description = level.Desc,
-            disabled = isDisabled(name, level),
+            title = floorConfig.Label,
+            description = floorConfig.Desc,
+            disabled = isDisabled(name, floorConfig),
             onSelect = function ()
-                liftMove(level)
+                liftMove(floorConfig)
             end
         }
     end
@@ -68,24 +40,23 @@ local function floorMenu(name) --function to draw the context menu
         options = options,
         title = Config.Elevators[name].Name,
         position = 'top-right',
-    }, function(selected, scrollIndex, args)
-    end
-)
+    })
 
     lib.showContext('dark-lifts_oxlib') --displays the menu after clicking the target option
 end
 
 
 CreateThread(function() --creates target zones by using data from config.lua
-    for name, elevatordata in pairsInOrder(Config.Elevators) do
-        for index, floordata in pairs(elevatordata.Floors) do
+    for name, elevatordata in Config.Elevators do
+        for i = 1, #elevatordata.Floors do
+            local floordata = elevatordata.Floors[i]
             exports.ox_target:addSphereZone({
                 coords = floordata.Coords,
                 radius = 1.5,
                 debug = Config.PolyDebug,
                 options = {
                     {
-                        name = ("%s%s"):format(name, index),
+                        name = ("%s%s"):format(name, i),
                         icon = "fas fa-hand-point-up",
                         label = 'Use Elevator',
                         onSelect = function()
