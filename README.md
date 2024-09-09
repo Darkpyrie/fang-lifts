@@ -15,4 +15,4 @@ Config.PolyDebug = false -- This will draw a preview of where your zones are whe
 Config.PullUpTime = 3000 -- 1000 = 1 second. This will be how long your screen stays black for while transitioning. Recommend 3000 or higher
 ```
  ## Credits
- - quantummalice | Helped me out in the ovberextended discord with some of the code as I didnt understand it and I don't want to take credit for what I didn't do alone
+ - quantummalice | Helped me out in the overextended discord with some of the code as I didnt understand it and I don't want to take credit for what I didn't do alone
