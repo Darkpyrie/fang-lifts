@@ -1,14 +1,5 @@
 if not lib.checkDependency('qbx_core', '1.15.0') then lib.print.error('qbx_core v1.15.0 is required for dark-lifts') return end
 
-local function isDisabled(name, level) --function to check if a floor/elevator is job locked in config.lua
-    if name.JobLocked then --checks if elevator is job locked
-        return not exports.qbx_core:HasGroup(name.JobAccess)
-    end
-    if level.Floorlock then --checks if floor is job locked
-        return not exports.qbx_core:HasGroup(level.JobFAccess)
-    end
-end
-
 local function liftMove(level) --function to move the ped
     local ped = PlayerPedId()
     DoScreenFadeOut(1500)
@@ -23,9 +14,14 @@ local function liftMove(level) --function to move the ped
 end
 
 local function floorMenu(name) --function to draw the context menu
-    for i = 1, #Config.Elevators[name].Floors do
-        local floorConfig = Config.Elevators[name].Floors[i]
-        local floorUnlocked = name.JobLocked and exports.qbx_core:HasGroup(name.JobAccess) or floorConfig.Floorlock and exports.qbx_core:HasGroup(floorConfig.JobFAccess) or true
+    local elevatorConfig = Config.Elevators[name]
+    local options = {}
+    for i = 1, #elevatorConfig.Floors do
+        local floorConfig = elevatorConfig.Floors[i]
+        local floorUnlocked = true
+        if floorConfig.Floorlock then
+          floorUnlocked = exports.qbx_core:HasGroup(floorConfig.JobFAccess)
+        end
         if floorUnlocked then
             options[#options+1] = {
                 title = floorConfig.Label,
@@ -49,7 +45,7 @@ end
 
 
 CreateThread(function() --creates target zones by using data from config.lua
-    for name, elevatordata in Config.Elevators do
+    for name, elevatordata in pairs(Config.Elevators) do
         for i = 1, #elevatordata.Floors do
             local floordata = elevatordata.Floors[i]
             exports.ox_target:addSphereZone({
@@ -61,6 +57,7 @@ CreateThread(function() --creates target zones by using data from config.lua
                         name = ("%s%s"):format(name, i),
                         icon = "fas fa-hand-point-up",
                         label = 'Use Elevator',
+                        groups = elevatordata.JobLocked and elevatordata.JobAccess or nil,
                         onSelect = function()
                             floorMenu(name)
                         end

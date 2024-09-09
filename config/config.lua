@@ -79,7 +79,7 @@ Config.Elevators = {
         },
         {
             Label = 'Lobby',
-            Desc = 'Reception and Outside Air',
+            Desc = 'Reception and Society... yuckie',
             Coords = vec3(-590.17, -430.76, 35.18),
             Heading = 270,
             Floorlock = false, --locks this floor to defined jobs below
