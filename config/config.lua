@@ -14,7 +14,7 @@ Config.Elevators = {
         },
     id = 'name', --mainly used for target zone IDs, just keep the same as your ["name"]
     Floors = {
-        [1] = {
+        {
             Label = 'Floor -1',
             Desc = 'PD Garage & Cells',
             Coords = vec3(-593.08, -430.82, 31.17), --coordinate of target zone
@@ -25,7 +25,7 @@ Config.Elevators = {
                 'ambulance',
             },
         },
-        [2] = {
+        {
             Label = 'Lobby',
             Desc = 'Reception and Outside Air',
             Coords = vec3(-590.17, -430.76, 35.18),
@@ -34,7 +34,7 @@ Config.Elevators = {
             JobFAccess = {
             },
         },
-        [3] = {
+        {
             Label = 'Floor 1',
             Desc = 'Offices & Kitchen',
             Coords = vec3(-590.13, -430.83, 39.64),
@@ -43,7 +43,7 @@ Config.Elevators = {
             JobFAccess = {
             },
         },
-        [4] = {
+        {
             Label = 'Floor 2',
             Desc = 'Forensics & Roof',
             Coords = vec3(-589.79, -431.03, 45.64),
@@ -66,7 +66,7 @@ Config.Elevators = {
         },
     id = 'zpdl',
     Floors = {
-        [1] = {
+        {
             Label = 'Floor -1',
             Desc = 'PD Garage & Cells',
             Coords = vec3(-593.08, -430.82, 31.17),
@@ -77,7 +77,7 @@ Config.Elevators = {
                 'ambulance',
             },
         },
-        [2] = {
+        {
             Label = 'Lobby',
             Desc = 'Reception and Outside Air',
             Coords = vec3(-590.17, -430.76, 35.18),
@@ -86,7 +86,7 @@ Config.Elevators = {
             JobFAccess = {
             },
         },
-        [3] = {
+        {
             Label = 'Floor 1',
             Desc = 'Offices & Kitchen',
             Coords = vec3(-590.13, -430.83, 39.64),
@@ -95,7 +95,7 @@ Config.Elevators = {
             JobFAccess = {
             },
         },
-        [4] = {
+        {
             Label = 'Floor 2',
             Desc = 'Forensics & Roof',
             Coords = vec3(-589.79, -431.03, 45.64),
@@ -106,6 +106,6 @@ Config.Elevators = {
                 'ambulance',
             },
         }
-    },   
+    },
 }
 }
