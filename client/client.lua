@@ -23,18 +23,18 @@ local function liftMove(level) --function to move the ped
 end
 
 local function floorMenu(name) --function to draw the context menu
-    local options = {}
-
     for i = 1, #Config.Elevators[name].Floors do
         local floorConfig = Config.Elevators[name].Floors[i]
-        options[#options+1] = {
-            title = floorConfig.Label,
-            description = floorConfig.Desc,
-            disabled = isDisabled(name, floorConfig),
-            onSelect = function ()
-                liftMove(floorConfig)
-            end
-        }
+        local floorUnlocked = name.JobLocked and exports.qbx_core:HasGroup(name.JobAccess) or floorConfig.Floorlock and exports.qbx_core:HasGroup(floorConfig.JobFAccess) or true
+        if floorUnlocked then
+            options[#options+1] = {
+                title = floorConfig.Label,
+                description = floorConfig.Desc,
+                onSelect = function ()
+                    liftMove(floorConfig)
+                end
+            }
+        end
     end
 
     lib.registerContext({
